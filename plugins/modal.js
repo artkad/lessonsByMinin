@@ -69,11 +69,13 @@ $.modal = function(options) {
   let destroyed = false
 
   const modal = {
-    open() {
+    open(curentItem) {
       if(destroyed){
         return console.log('Modal is destroyed')
       }
       !closing && $modal.classList.add('open')
+      options.title = curentItem
+      console.log(options.title)
       $modal.querySelector('.modal-window').setAttribute('style', `width:${options.width}`)
     },
     close() {
