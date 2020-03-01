@@ -17,12 +17,8 @@ function _createModalFooter(buttons = []) {
 
       wrap.appendChild($btn)
     })
-    
-
     return wrap
 }
-
-
 
 function _createModal(options) {
   const modal = document.createElement('div')
@@ -47,35 +43,17 @@ function _createModal(options) {
   return modal
 }
 
-/*
-* title: string
-* closable: boolean
-* content: string
-* width: string ('400px')
-* destroy(): void
-* Окно должно закрываться
-* --------------
-* setContent(html: string): void | PUBLIC
-* onClose(): void
-* onOpen(): void
-* beforeClose(): boolean
-* --------------
-* animate.css
-* */
 $.modal = function(options) {
   const ANIMATION_SPEED = 200
   const $modal = _createModal(options)
   let closing = false
   let destroyed = false
-
   const modal = {
-    open(curentItem) {
+    open() {
       if(destroyed){
         return console.log('Modal is destroyed')
       }
       !closing && $modal.classList.add('open')
-      options.title = curentItem
-      console.log(options.title)
       $modal.querySelector('.modal-window').setAttribute('style', `width:${options.width}`)
     },
     close() {
@@ -85,6 +63,9 @@ $.modal = function(options) {
       setTimeout(() => {
         $modal.classList.remove('hide')
         closing = false
+        if(typeof options.onClose === 'function') {
+          options.onClose()
+        }
       }, ANIMATION_SPEED)
     }
   }
